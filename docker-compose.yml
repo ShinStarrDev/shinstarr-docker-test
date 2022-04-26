@@ -1,0 +1,43 @@
+version: "3.5"
+services: 
+  nginx:
+    restart: always
+    build: 
+      dockerfile: Dockerfile
+      context: ./nginx
+    ports:
+      - 80:80
+    networks:
+      - network-test
+    depends_on:
+      - nest-test
+  nest-test:
+    container_name: nest-test
+    hostname: nest-test
+    build: ./nest-test
+    ports:
+      - 8080:8080
+    networks:
+      - network-test
+  micro-test:
+    container_name: micro-test
+    hostname: micro-test
+    build: ./micro-test
+    ports:
+      - 8877:8877
+    networks:
+      - network-test  
+  micro-test2:
+    container_name: micro-test2
+    hostname: micro-test2
+    build: ./micro-test2
+    ports:
+      - 8876:8876
+    networks:
+      - network-test
+networks: 
+  network-test:
+    external: true
+volumes:
+  nest-content:
+    external: true
